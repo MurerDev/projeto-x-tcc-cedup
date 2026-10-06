@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Projeto X — TCC CEDUP 2026 · Orientação profissional</title>
+<meta name="description" content="TCC CEDUP 2026: plataforma de orientação profissional para ensino médio. Questionário, 12 áreas, trilha, simulados." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="topline"><div class="container"><span><span class="dot"></span>PROJETO X · TCC CEDUP 2026 · VERSÃO BANCA</span><span class="no-print">LOCALHOST · DADOS NO NAVEGADOR · RF01–RF43</span></div></div>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a href="#" class="brand" data-go="inicio"><img src="logo.png" alt="Projeto X" class="brand-logo" /><span class="brand-name"><b>Projeto X</b><span>ORIENTAÇÃO PROFISSIONAL</span></span></a>
+    <nav class="menu" id="menu">
+      <a href="#" data-go="inicio" class="active">01 INÍCIO</a>
+      <a href="#" data-go="questionario">02 QUESTIONÁRIO</a>
+      <a href="#" data-go="areas">03 ÁREAS</a>
+      <a href="#" data-go="simulado">04 SIMULADO</a>
+      <a href="#" data-go="materiais">05 MATERIAIS</a>
+      <a href="#" data-go="sobre">06 SOBRE</a>
+    </nav>
+    <div class="top-actions">
+      <button class="icon-btn" id="searchBtn">Buscar</button>
+      <a href="#" class="btn-perfil" id="perfilBtn"><span id="perfilLabel">CONTA</span></a>
+      <button class="hamburger" id="hamburger">Menu</button>
+    </div>
+  </div>
+  <div class="search-bar" id="searchBar"><input type="search" id="searchInput" placeholder="Buscar: enfermagem, dados, design, mecânica..." /></div>
+</header>
+
+<main id="app">
+<section class="view active" data-view="inicio">
+<div class="hero"><div class="container">
+<div class="hero-grid">
+<div class="hero-left">
+<div class="docline"><span>DOC-01 · ESCOPO E PROBLEMA</span><span>ENSINO MÉDIO · 2026</span></div>
+<h1>Que caminho combina <em>com o seu momento?</em></h1>
+<p class="hero-desc">O Projeto X não diz qual profissão você <strong>deve</strong> seguir. Ele cruza <strong>interesses, habilidades e competências</strong>, aponta <strong>áreas acima de 60%</strong> e monta uma trilha proporcional ao seu nível — do primeiro contato ao portfólio.</p>
+<div class="spec"><div><b>PÚBLICO</b>Estudantes de ensino médio</div><div><b>MÉTODO</b>35 / 35 / 20 + desempate</div><div><b>ENTREGA</b>Trilha + simulado + materiais</div></div>
+<div class="hero-cta"><a href="#" class="btn-primary" data-go="questionario">Começar pelo cadastro</a><a href="#" class="btn-ghost" data-go="sobre">Ler metodologia</a></div>
+<p class="hero-note">CHECKLIST: <span id="checkHero">conta · questionário · resultado · simulado</span> — progresso salvo neste navegador.</p>
+</div>
+<div class="hero-right">
+<div class="ficha-head"><span>FICHA DO SISTEMA</span><span>Nº 001</span></div>
+<div class="ficha-body"><img class="seal-logo" src="logo.png" alt="Logo Projeto X" /><div><h3>Cérebro-circuito, avião e globo.</h3><p>Marca do projeto: repertório técnico, trajetória e mundo do trabalho. Fundo original removido, mantido só o selo.</p></div></div>
+<div class="pesos"><div><span>INTERESSES</span><span class="bar"><i style="width:35%"></i></span><span>35%</span></div><div><span>HABILIDADES</span><span class="bar"><i style="width:35%"></i></span><span>35%</span></div><div><span>COMPETÊNCIAS</span><span class="bar"><i style="width:20%"></i></span><span>20%</span></div><div><span>PREFERÊNCIAS</span><span>FILTRO / DESEMPATE</span></div></div>
+<div class="ficha-foot"><a href="#" data-go="areas" class="solid">VER 12 ÁREAS</a><a href="#" data-go="questionario">QUESTIONÁRIO</a></div>
+</div>
+</div>
+</div></div>
+
+<div class="container sec">
+<div class="sec-head"><span class="sec-num">01</span><h2>O questionário em 3 etapas</h2><p>RF17 — RF24</p></div>
+<div class="pillars-grid">
+<div class="pillars-intro"><span class="kicker">Como avaliamos</span><h2>4 pontos, sem achismo</h2><p>Habilidade conta tanto quanto interesse. Curso sozinho não prova nada: vale prática, bico e vivência.</p><div class="human-note"><b>Caso real:</b> gosta de TI mas nunca programou → trilha de exploração. Já programa → trilha de aperfeiçoamento.</div><br><a href="#" class="link-more" data-go="questionario">Abrir questionário</a></div>
+<article class="card"><span class="card-kicker">ETAPA 1 · INTERESSES — 12 ITENS</span><p>Curiosidade e vontade de aprender. Escala de 5 pontos, com neutro.</p><button class="saiba" data-go="questionario">Responder etapa 1</button></article>
+<article class="card"><span class="card-kicker">ETAPA 2 · HABILIDADES — 10 ITENS</span><p>Evidência prática: já fez, faz bem ou ensina outros.</p><button class="saiba" data-go="questionario">Responder etapa 2</button></article>
+<article class="card"><span class="card-kicker">ETAPA 3A · COMPETÊNCIAS — 8 SITUAÇÕES</span><p>Comunicação, organização, liderança e resolução em cenário real.</p><button class="saiba" data-go="questionario">Responder etapa 3</button></article>
+<article class="card"><span class="card-kicker">ETAPA 3B · AMBIENTE — 4 ITENS</span><p>Equipe x individual, dinâmico x previsível. Não soma, desempatta.</p><button class="saiba" data-go="questionario">Definir preferências</button></article>
+</div>
+</div>
+
+<div class="container sec">
+<div class="sec-head"><span class="sec-num">02</span><h2>12 áreas profissionais</h2><p>ITEM 12 · RF12</p></div>
+<p class="sec-sub">Tabela oficial do TCC. Cada ficha tem descrição, competências, perfil, carreiras e formação. Clique para abrir a trilha.</p>
+<div id="areasPreview" class="areas-grid"></div>
+<div class="a11y no-print"><button id="fontMais">A+ fonte</button><button id="fontMenos">A- fonte</button><button id="contrastBtn">Alto contraste</button><button id="printHome">Imprimir resumo</button></div>
+</div>
+
+<div class="container sec">
+<div class="sec-head"><span class="sec-num">03</span><h2>Ordem de uso do sistema</h2><p>MVP · RF25–RF43</p></div>
+<div class="checklist" id="checkList"><div><b>PASSO 1</b><span class="todo" data-check="conta">Criar conta</span></div><div><b>PASSO 2</b><span class="todo" data-check="quiz">Responder 3 etapas</span></div><div><b>PASSO 3</b><span class="todo" data-check="res">Ver áreas 60%+</span></div><div><b>PASSO 4</b><span class="todo" data-check="sim">Treinar simulado</span></div></div>
+<div class="panel accent"><b>Regra de exibição (banca vai perguntar):</b> <span class="mono">≥60% destaque · 40–59% em “ver mais” · &lt;40% oculto · empate: preferência, depois A–Z</span>. Simulado treina, não altera a trilha. Histórico: 5 tentativas de cada.</div>
+</div>
+</section>
+
+<section class="view" data-view="auth">
+<div class="container narrow sec"><div class="sec-head"><span class="sec-num">A</span><h2 id="authTitle">Conta</h2><p>RF01–RF11 · RNF01–05</p></div>
+<div class="tabs"><button class="tab active" id="tabLogin" type="button">ENTRAR</button><button class="tab" id="tabCad" type="button">CADASTRAR</button></div>
+<div class="auth-stage">
+<form id="formLogin" class="auth-dark" novalidate>
+<div class="field-dark"><span class="field-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="#4AA8FF"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5v1H4v-1z" fill="#4AA8FF"/></svg></span><input id="loginUser" placeholder="Usuário" autocomplete="username" required /></div>
+<div class="field-dark"><span class="field-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" fill="#4AA8FF"/><path d="M8 10V7a4 4 0 018 0v3" stroke="#4AA8FF" stroke-width="2" fill="none"/><circle cx="12" cy="15" r="1.6" fill="#0A1931"/><rect x="11.2" y="15" width="1.6" height="2.6" fill="#0A1931"/></svg></span><input id="loginPass" type="password" placeholder="Senha" autocomplete="current-password" required /><button type="button" id="toggleLogin" class="peek" aria-label="Mostrar senha">ver</button></div>
+<small id="loginErr" class="auth-err"></small>
+<div class="auth-row"><label class="remember"><input type="checkbox" id="rememberMe" checked /><span class="box" aria-hidden="true"></span> Lembrar de mim</label><a href="#" id="forgotLink">Esqueceu a senha?</a></div>
+<button class="btn-login" type="submit" id="btnLogin">ENTRAR</button>
+<p class="auth-hint">Username único (joao = JOAO). <span id="authCount"></span></p>
+</form>
+<form id="formCad" class="auth-dark" hidden novalidate>
+<div class="field-dark"><span class="field-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="#4AA8FF"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5v1H4v-1z" fill="#4AA8FF"/></svg></span><input id="cadNome" placeholder="Nome (pode repetir)" required /></div>
+<div class="field-dark"><span class="field-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="#4AA8FF" stroke-width="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="#4AA8FF" stroke-width="2"/></svg></span><input id="cadUser" placeholder="Usuário (3-20, sem espaço)" required /></div>
+<small id="userTip" class="auth-hint"></small>
+<div class="field-dark"><span class="field-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="#4AA8FF"/><path d="M8 10V7a4 4 0 018 0v3" stroke="#4AA8FF" stroke-width="2" fill="none"/></svg></span><input id="cadPass" type="password" placeholder="Senha (mínimo 4)" minlength="4" required /><button type="button" id="toggleCad" class="peek">ver</button></div>
+<small id="passTip" class="auth-hint"></small>
+<div class="auth-row2"><div class="field-dark"><input id="cadIdade" type="number" min="10" max="99" placeholder="Idade (opcional)" /></div><div class="field-dark"><input id="cadCidade" placeholder="Cidade/UF (opcional)" /></div></div>
+<small id="cadErr" class="auth-err"></small>
+<button class="btn-login" type="submit" id="btnCad">CRIAR CONTA</button>
+<p class="auth-hint">Uso local para o TCC. Excluir apaga tudo (RF11).</p>
+</form>
+<div class="panel" style="margin-top:12px"><b>Apresentação rápida para a banca</b><p class="form-hint">Sem cadastro na hora? Use a demo.</p><button type="button" class="btn-ghost dark" id="demoBtn">Entrar com demo_banca / demo123</button></div>
+</div>
+</div>
+</section>
+
+<section class="view" data-view="areas">
+<div class="container sec"><div class="sec-head"><span class="sec-num">03</span><h2>Todas as áreas</h2><p>12 FICHAS</p></div><div id="areasFull" class="areas-grid"></div></div>
+</section>
+
+<section class="view" data-view="questionario">
+<div class="container narrow sec"><div class="sec-head"><span class="sec-num">02</span><h2>Questionário</h2><p id="quizStatus">3 ETAPAS</p></div>
+<div class="progress"><div class="progress-fill" id="quizFill"></div></div><p class="etapas" id="etapasLabel"></p>
+<div id="quizBox"></div>
+<div class="quiz-nav no-print"><button id="quizBack" class="btn-ghost dark">Voltar</button><button id="quizNext" class="btn-primary">Continuar</button></div>
+<button id="quizFinish" class="btn-primary btn-full" hidden>Finalizar e ver resultado</button>
+<p class="form-hint">Etapa só libera a próxima quando concluída. Dá para alterar tudo antes de finalizar. Sair no meio perde só a etapa atual.</p></div>
+</section>
+
+<section class="view" data-view="resultado">
+<div class="container narrow sec"><div class="sec-head"><span class="sec-num">R</span><h2>Boletim de compatibilidade</h2><p class="mono" id="resDate"></p></div>
+<div class="report"><div class="report-head"><div><span class="mono">PROJETO X · RELATÓRIO INDIVIDUAL E PRIVADO</span><h3 id="resTitle">Suas áreas</h3></div><div class="no-print" style="display:flex;gap:8px"><button class="btn-ghost dark" id="btnPrint">Imprimir</button><button class="btn-ghost dark" id="btnExport">Exportar JSON</button></div></div>
+<div style="padding:14px 18px"><div id="resTop"></div><button id="btnVerMais" class="btn-ghost dark no-print">Ver mais (40 a 59%)</button><div id="resMore" hidden></div>
+<h3 style="margin-top:12px">Gráfico — top compatibilidades</h3><canvas class="chart" id="chartCanvas" width="700" height="220"></canvas>
+<div class="panel"><h3>Leitura do cálculo</h3><p id="resExplain" class="sec-sub"></p><div class="row2 no-print"><button class="btn-ghost dark" data-go="historico">Comparar tentativas</button><button class="btn-primary" data-go="simulado">Treinar simulado</button></div></div>
+</div></div>
+</div>
+</section>
+
+<section class="view" data-view="trilha">
+<div class="container narrow sec"><a href="#" data-go="resultado" class="link-more">Voltar ao boletim</a><div id="trilhaBox" style="margin-top:10px"></div></div>
+</section>
+
+<section class="view" data-view="simulado">
+<div class="container narrow sec"><div class="sec-head"><span class="sec-num">04</span><h2>Simulado de seleção</h2><p>RF32–RF41</p></div>
+<p class="sec-sub">Um módulo genérico + dois com conteúdo da área (Tecnologia e Saúde no MVP). Só uma etapa é interativa. 15 questões, múltipla escolha, sem cronômetro.</p>
+<div class="row3" id="simList"></div><div id="simBox" style="margin-top:12px"></div></div>
+</section>
+
+<section class="view" data-view="materiais">
+<div class="container narrow sec"><div class="sec-head"><span class="sec-num">05</span><h2>Currículo e redação</h2><p>RF43 · SÓ LEITURA</p></div><div id="matBox"></div></div>
+</section>
+
+<section class="view" data-view="historico">
+<div class="container narrow sec"><div class="sec-head"><span class="sec-num">H</span><h2>Histórico e evolução</h2><p>5 + 5</p></div>
+<p class="sec-sub">A trilha exibida sempre reflete a tentativa mais recente do questionário.</p>
+<div class="panel"><h3>Comparar duas tentativas</h3><div class="row2"><select id="cmpA" style="padding:9px;border:1.5px solid #141A26"></select><select id="cmpB" style="padding:9px;border:1.5px solid #141A26"></select></div><button class="btn-primary" id="cmpBtn" style="margin-top:8px">Comparar</button><div id="cmpBox" style="margin-top:8px"></div></div>
+<div class="row2"><div><h3>Questionário</h3><div id="histQuiz"></div></div><div><h3>Simulados</h3><div id="histSim"></div></div></div></div>
+</section>
+
+<section class="view" data-view="conta">
+<div class="container narrow sec"><div class="sec-head"><span class="sec-num">C</span><h2>Minha conta</h2><p>RNF01–RNF05</p></div><div id="contaBox"></div></div>
+</section>
+
+<section class="view" data-view="sobre">
+<div class="container narrow sec"><div class="sec-head"><span class="sec-num">06</span><h2>Sobre o TCC</h2><p>METODOLOGIA</p></div>
+<div class="panel accent"><h3>Problema</h3><p>Estudantes do ensino médio têm dificuldade para relacionar o que gostam e sabem fazer com áreas reais e próximos passos de formação e seleção.</p></div>
+<div class="panel"><h3>Método de cálculo</h3><p class="mono">score(area) = (I*0.35 + H*0.35 + C*0.20) / 0.90 · cada resposta 0–4 × peso 1–3 · até 3 áreas por item</p><p>Preferências não somam: filtram e desempatam. Empate persistente: ordem alfabética.</p></div>
+<div class="panel"><h3>Stack declarada (RNF12)</h3><p>Protótipo atual: HTML + CSS + JS puro com renderização condicional (mesma lógica do React sem router), LocalStorage como persistência local. Alvo final: React + Express + PostgreSQL (pg) + bcrypt + JWT. Senhas aqui com SHA-256 para demonstração.</p></div>
+<div class="panel"><h3>Limites do escopo</h3><p>Não determina profissão, não substitui orientador, sem diagnóstico, sem garantia de emprego, sem IA obrigatória, só dados necessários.</p></div>
+<div class="panel"><h3>Equipe e documentos</h3><p class="mono">Escopo · Riscos · Problema · Objetivos · Público · Diferencial · RF · RNF · Priorização · 12 perfis — github.com/Nicolaszz0708/TCC-CEDUP-2026</p></div>
+</div>
+</section>
+</main>
+
+<footer class="footer"><div class="container footer-inner">
+<div><b>Projeto X — TCC CEDUP 2026</b><br>Orientação e preparação profissional.<br><span class="mono">Cadastro · Questionário · Trilha · Simulado</span></div>
+<div><b>Banca</b><br>Metodologia explícita<br>Pesos e thresholds auditáveis<br>Histórico comparável</div>
+<div><b>Dados</b><br>Locais, privados<br>5 tentativas guardadas<br>Exportação em JSON</div>
+<div><b>Equipe</b><br>Documentação no GitHub<br>Apresentação em localhost<br><span class="mono"> custo alvo R$ 50/mês</span></div>
+</div></footer>
+<div class="toast" id="toast"></div>
+<script src="dados.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
