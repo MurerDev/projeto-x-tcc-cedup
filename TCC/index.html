@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Projeto X — Joguinho do Perfil</title>
-<meta name="description" content="Questionário gamificado de orientação profissional para estudantes do ensino médio." />
+<title>Projeto X — Orientação e preparação profissional</title>
+<meta name="description" content="TCC CEDUP 2026: plataforma de orientação profissional para ensino médio. Joguinho de perfil, áreas compatíveis, trilha, simulados." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -12,126 +12,188 @@
 </head>
 <body>
 
-<!-- TOPO -->
+<div class="topline"><div class="container"><span><span class="dot"></span>PROJETO X · TCC CEDUP 2026 · VERSÃO BANCA</span><span class="no-print">API LOCAL · DADOS COM PRIVACIDADE (LGPD)</span></div></div>
+
 <header class="topbar">
   <div class="container topbar-inner">
-    <a href="#" class="brand" id="btnHome"><span class="brand-icon">◉</span> Projeto <strong>X</strong></a>
+    <a href="#" class="brand" id="btnHome"><img src="logo.png" alt="Projeto X" class="brand-logo" /><span class="brand-name"><b>Projeto X</b><span>ORIENTAÇÃO PROFISSIONAL</span></span></a>
+    <nav class="menu" id="menu">
+      <a href="#" data-go="inicio" class="active">01 INÍCIO</a>
+      <a href="#" data-go="jogo">02 JOGUINHO</a>
+      <a href="#" data-go="areas">03 ÁREAS</a>
+      <a href="#" data-go="simulado">04 SIMULADO</a>
+      <a href="#" data-go="materiais">05 MATERIAIS</a>
+      <a href="#" data-go="sobre">06 SOBRE</a>
+    </nav>
     <div class="top-actions">
       <a href="#" class="btn-perfil" id="btnConta">CONTA</a>
+      <button class="hamburger" id="hamburger">Menu</button>
     </div>
   </div>
 </header>
 
-<!-- MAPA DO JOGO -->
-<section class="view active" data-view="mapa">
-<div class="container sec">
-  <div class="sec-head">
-    <span class="sec-num">🎮</span>
-    <h2>Joguinho do Perfil</h2>
-    <p class="sec-sub">Responda uma pergunta, faça o bonequinho andar até a próxima. Sem pressa!</p>
+<main id="app">
+
+<!-- ============ INÍCIO ============ -->
+<section class="view active" data-view="inicio">
+  <div class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="hello">👋 Que bom te ver por aqui!</span>
+        <h1>Descubra caminhos<br>para o seu <span class="blue">futuro<br>profissional.</span></h1>
+        <p class="hero-desc">O <strong>Projeto X</strong> é uma plataforma feita para ajudar estudantes do ensino médio a entender melhor seu perfil e se preparar, no seu ritmo, para o mercado de trabalho. Sem determinar profissão: indica <strong>áreas compatíveis</strong> e monta sua <strong>trilha</strong>.</p>
+        <div class="hero-cta">
+          <a href="#" class="btn-primary" data-go="jogo">Começar o joguinho 🎮</a>
+          <a href="#" class="btn-ghost" data-go="areas">Ver as 12 áreas</a>
+        </div>
+        <p class="hero-trust">✨ Gratuito · sem nota · resultado privado só seu</p>
+      </div>
+      <div class="hero-side">
+        <img class="seal-logo" src="logo.png" alt="Logo Projeto X" />
+        <p><strong>4 pilares, 12 áreas</strong>Interesses 35% + Habilidades 35% + Competências 20%. Preferências desempatam. Tudo explicado na página Sobre.</p>
+        <div class="pesos">
+          <div><span>INTERESSES</span><span class="bar"><i style="width:35%"></i></span><span>35%</span></div>
+          <div><span>HABILIDADES</span><span class="bar"><i style="width:35%"></i></span><span>35%</span></div>
+          <div><span>COMPETÊNCIAS</span><span class="bar"><i style="width:20%"></i></span><span>20%</span></div>
+          <div><span>PREFERÊNCIAS</span><span>FILTRO / DESEMPATE</span></div>
+        </div>
+        <div class="ficha-foot"><a href="#" data-go="jogo" class="solid">JOGAR AGORA</a><a href="#" data-go="sobre">METODOLOGIA</a></div>
+      </div>
+    </div>
+    <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,30 C240,60 480,0 720,25 C960,50 1200,10 1440,30 L1440,60 L0,60 Z" fill="#fff"/></svg>
   </div>
 
-  <!-- Barra de progresso -->
-  <div class="game-header">
-    <div class="progress-wrap">
-      <div class="progress-track"></div>
-      <div class="progress-fill" id="gameProgress"></div>
-    </div>
-    <div class="game-stats">
-      <span id="gameEtapa">1</span> / <span id="gameTotal">30</span>
-      <span class="sep">•</span>
-      <span id="gameScore">0%</span>
-    </div>
-  </div>
-
-  <!-- Cenário do joguinho -->
-  <div class="game-board">
-    <div class="game-path">
-      <!-- Os pontos do caminho serão gerados pelo JS -->
-      <div class="path-line"></div>
-      <div id="pathPoints"></div>
-    </div>
-
-    <div class="game-character" id="gameCharacter">🧑‍🎓</div>
-
-    <div class="game-card" id="gameCard">
-      <div class="card-header">
-        <span class="card-pilar" id="cardPilar">Interesses</span>
-        <span class="card-num" id="cardNum">Pergunta 1</span>
+  <div class="pillars" id="pilares">
+    <div class="container pillars-grid">
+      <div class="pillars-intro">
+        <span class="kicker">COMO FUNCIONA</span>
+        <h2>Os 4 pilares da<br>sua análise</h2>
+        <p>Interesses, habilidades, competências e preferências. Juntos apontam áreas compatíveis — nunca uma profissão obrigatória.</p>
+        <p class="human-note">💬 A gente te escuta primeiro, depois sugere.</p>
+        <a href="#" class="link-more" data-go="jogo">COMEÇAR PELO JOGUINHO</a>
       </div>
-      <div class="card-body">
-        <h3 class="card-txt" id="cardTxt">Carregando pergunta...</h3>
-      </div>
-      <div class="card-options" id="cardOptions">
-        <!-- Alternativas geradas pelo JS -->
-      </div>
-      <div class="card-feedback" id="cardFeedback"></div>
-      <div class="card-nav" id="cardNav" style="display:none">
-        <button class="btn-ghost" id="btnVoltar">← Voltar</button>
-        <button class="btn-primary" id="btnProximo">Próxima →</button>
-      </div>
+      <article class="card"><span class="card-kicker">1 · INTERESSES</span><p>O que desperta sua curiosidade.</p><button class="saiba" data-go="jogo">Etapa 1</button></article>
+      <article class="card"><span class="card-kicker">2 · HABILIDADES</span><p>O que você já faz (bico, escola, projeto).</p><button class="saiba" data-go="jogo">Etapa 2</button></article>
+      <article class="card"><span class="card-kicker">3 · COMPETÊNCIAS</span><p>Como você age em grupo e sob pressão.</p><button class="saiba" data-go="jogo">Etapa 3</button></article>
+      <article class="card"><span class="card-kicker">4 · PREFERÊNCIAS</span><p>Ambiente ideal. Só desempata, não soma.</p><button class="saiba" data-go="jogo">Etapa 4</button></article>
     </div>
   </div>
 
-  <div class="game-footer no-print">
-    <button class="btn-ghost" id="btnSairJogo">Sair do joguinho</button>
-    <button class="btn-primary" id="btnReiniciarJogo" style="display:none">Reiniciar joguinho</button>
+  <div class="container"><h2 class="sec-title">As 12 áreas do Projeto X</h2><p class="sec-sub">Toque para ver carreiras e trilha.</p><div id="areasPreview" class="areas-grid"></div></div>
+
+  <div class="journey" id="jornada">
+    <div class="container">
+      <div class="journey-head"><h2>Sua <span class="blue">Jornada</span> começa aqui.</h2><p class="journey-sub">Perfil → Áreas ≥60% → Trilha → Simulado e materiais. O simulado treina, não muda a trilha.</p></div>
+      <div class="steps">
+        <div class="step"><span class="step-num">1. Seu perfil</span><p>Joguinho em 4 etapas, com progresso salvo no banco.</p><span class="step-icon">🙋</span></div>
+        <div class="step"><span class="step-num">2. Áreas compatíveis</span><p>≥60% em destaque, 40–59% em “ver mais”.</p><span class="step-icon">🧭</span></div>
+        <div class="step"><span class="step-num">3. Trilha + formação</span><p>Exploração ou aperfeiçoamento, com links confiáveis.</p><span class="step-icon">🚀</span></div>
+        <div class="step"><span class="step-num">4. Simulado + materiais</span><p>Entrevista, currículo e redação para chegar pronto.</p><span class="step-icon">💼</span></div>
+      </div>
+      <div class="journey-cta"><a href="#" class="btn-primary btn-light" data-go="jogo">Quero começar 💙</a><p class="small">Cria conta grátis — leva 1 min</p></div>
+    </div>
   </div>
-</div>
 </section>
 
-<!-- RESULTADO -->
+<!-- ============ JOGUINHO ============ -->
+<section class="view" data-view="jogo">
+  <div class="container sec">
+    <div class="sec-head"><span class="sec-num">🎮</span><h2>Joguinho do Perfil</h2><p id="quizStatus">PROGRESSO SALVO NO BANCO</p></div>
+    <div class="game-header">
+      <div class="progress-wrap"><div class="progress-track"></div><div class="progress-fill" id="gameProgress"></div></div>
+      <div class="game-stats"><span id="gameEtapa">1</span> / <span id="gameTotal">34</span><span class="sep">•</span><span id="gamePilar">Interesses</span></div>
+    </div>
+    <div id="retomarBox" class="panel accent" hidden>
+      <b>Você já começou este questionário.</b>
+      <p class="sec-sub" style="margin:4px 0 8px" id="retomarInfo"></p>
+      <div class="row2"><button class="btn-primary" id="btnContinuar">Continuar de onde parei</button><button class="btn-ghost dark" id="btnRecomecar">Recomeçar do zero</button></div>
+    </div>
+    <div class="game-board">
+      <div class="game-path"><div class="path-line"></div><div id="pathPoints"></div></div>
+      <div class="game-character" id="gameCharacter">🧑‍🎓</div>
+      <div class="game-card" id="gameCard"></div>
+    </div>
+    <div class="game-footer no-print">
+      <button class="btn-ghost" id="btnVoltarTopo">← Voltar pergunta</button>
+      <button class="btn-primary" id="btnProximoTopo">Próxima →</button>
+    </div>
+    <p class="form-hint">Respondeu? O progresso salva sozinho no banco. Pode sair e voltar depois que continua de onde parou.</p>
+  </div>
+</section>
+
+<!-- ============ RESULTADO ============ -->
 <section class="view" data-view="resultado">
-<div class="container narrow sec">
-  <div class="sec-head"><span class="sec-num">R</span><h2>Boletim de Compatibilidade</h2><p class="mono">Seu resultado no joguinho</p></div>
-  <div class="report">
-    <div class="report-head">
-      <div><span class="mono">PROJETO X · RELATÓRIO PRIVADO</span><h3 id="resTitle">Suas áreas</h3></div>
-      <div class="no-print" style="display:flex;gap:8px"><button class="btn-ghost dark" id="btnPrint">Imprimir</button><button class="btn-ghost dark" id="btnExport">Exportar JSON</button></div>
-    </div>
-    <div style="padding:14px 18px">
-      <div id="resTop"></div>
-      <button id="btnVerMais" class="btn-ghost dark no-print">Ver mais (40 a 59%)</button>
-      <div id="resMore" hidden></div>
-      <h3 style="margin-top:12px">Gráfico — Top compatibilidades</h3>
-      <canvas class="chart" id="chartCanvas" width="700" height="220"></canvas>
-      <div class="panel"><h3>Leitura do cálculo</h3><p id="resExplain" class="sec-sub"></p><div class="row2 no-print"><button class="btn-ghost dark" data-go="mapa">Jogar novamente</button><button class="btn-primary" data-go="auth">Ir para a conta</button></div></div>
+  <div class="container narrow sec">
+    <div class="sec-head"><span class="sec-num">R</span><h2>Boletim de Compatibilidade</h2><p class="mono" id="resDate"></p></div>
+    <div class="report"><div class="report-head"><div><span class="mono">PROJETO X · RELATÓRIO PRIVADO</span><h3 id="resTitle">Suas áreas</h3></div><div class="no-print" style="display:flex;gap:8px"><button class="btn-ghost dark" id="btnPrint">Imprimir</button><button class="btn-ghost dark" id="btnExport">Exportar JSON</button></div></div>
+      <div style="padding:14px 18px">
+        <div id="resTop"></div>
+        <button id="btnVerMais" class="btn-ghost dark no-print">Ver mais (40 a 59%)</button>
+        <div id="resMore" hidden></div>
+        <h3 style="margin-top:12px">Gráfico — top compatibilidades</h3>
+        <canvas class="chart" id="chartCanvas" width="700" height="220"></canvas>
+        <div class="panel"><h3>Leitura do cálculo</h3><p id="resExplain" class="sec-sub"></p><div class="row2 no-print"><button class="btn-ghost dark" data-go="historico">Histórico</button><button class="btn-primary" data-go="simulado">Treinar simulado</button></div></div>
+      </div>
     </div>
   </div>
-</div>
 </section>
 
-<!-- CONTA (ENTRAR / CADASTRAR) -->
-<section class="view" data-view="auth">
-<div class="container narrow sec"><div class="sec-head"><span class="sec-num">A</span><h2 id="authTitle">Conta</h2><p>RF01–RF11 · RNF01–05</p></div>
-<div class="tabs"><button class="tab active" id="tabLogin" type="button">ENTRAR</button><button class="tab" id="tabCad" type="button">CADASTRAR</button></div>
-<div class="auth-stage">
-<form id="formLogin" class="auth-dark" novalidate>
-<div class="field-dark"><span class="field-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="#4AA8FF"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5v1H4v-1z" fill="#4AA8FF"/></svg></span><input id="loginUser" placeholder="Usuário" autocomplete="username" required /></div>
-<div class="field-dark"><span class="field-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" fill="#4AA8FF"/><path d="M8 10V7a4 4 0 018 0v3" stroke="#4AA8FF" stroke-width="2" fill="none"/><circle cx="12" cy="15" r="1.6" fill="#0A1931"/><rect x="11.2" y="15" width="1.6" height="2.6" fill="#0A1931"/></svg></span><input id="loginPass" type="password" placeholder="Senha" autocomplete="current-password" required /><button type="button" id="toggleLogin" class="peek">ver</button></div>
-<small id="loginErr" class="auth-err"></small>
-<div class="auth-row"><label class="remember"><input type="checkbox" id="rememberMe" checked /><span class="box" aria-hidden="true"></span> Lembrar de mim</label><a href="#" id="forgotLink">Esqueceu a senha?</a></div>
-<button class="btn-login" type="submit" id="btnLogin">ENTRAR</button>
-<p class="auth-hint">Username único (joao = JOAO). <span id="authCount"></span></p>
-</form>
-<form id="formCad" class="auth-dark" hidden novalidate>
-<div class="field-dark"><span class="field-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="#4AA8FF"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5v1H4v-1z" fill="#4AA8FF"/></svg></span><input id="cadNome" placeholder="Nome (pode repetir)" required /></div>
-<div class="field-dark"><span class="field-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="#4AA8FF" stroke-width="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="#4AA8FF" stroke-width="2"/></svg></span><input id="cadUser" placeholder="Usuário (3-20, sem espaço)" required /></div>
-<small id="userTip" class="auth-hint"></small>
-<div class="field-dark"><span class="field-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="#4AA8FF"/><path d="M8 10V7a4 4 0 018 0v3" stroke="#4AA8FF" stroke-width="2" fill="none"/></svg></span><input id="cadPass" type="password" placeholder="Senha (mínimo 4)" minlength="4" required /><button type="button" id="toggleCad" class="peek">ver</button></div>
-<small id="passTip" class="auth-hint"></small>
-<div class="auth-row2"><div class="field-dark"><input id="cadIdade" type="number" min="10" max="99" placeholder="Idade (opcional)" /></div><div class="field-dark"><input id="cadCidade" placeholder="Cidade/UF (opcional)" /></div></div>
-<small id="cadErr" class="auth-err"></small>
-<button class="btn-login" type="submit" id="btnCad">CRIAR CONTA</button>
-<p class="auth-hint">Uso local para o TCC. Excluir apaga tudo (RF11).</p>
-</form>
-<div class="panel" style="margin-top:12px"><b>Apresentação rápida para a banca</b><p class="form-hint">Sem cadastro na hora? Use a demo.</p><button type="button" class="btn-ghost dark" id="demoBtn">Entrar com demo_banca / demo123</button></div>
-</div>
-</div>
+<!-- ============ TRILHA ============ -->
+<section class="view" data-view="trilha">
+  <div class="container narrow sec"><a href="#" data-go="resultado" class="link-more">Voltar ao boletim</a><div id="trilhaBox" style="margin-top:10px"></div></div>
 </section>
 
+<!-- ============ ÁREAS ============ -->
+<section class="view" data-view="areas">
+  <div class="container sec"><div class="sec-head"><span class="sec-num">03</span><h2>Todas as áreas</h2><p>12 FICHAS</p></div><div id="areasFull" class="areas-grid"></div></div>
+</section>
+
+<!-- ============ SIMULADO ============ -->
+<section class="view" data-view="simulado">
+  <div class="container narrow sec"><div class="sec-head"><span class="sec-num">04</span><h2>Simulados de processo seletivo</h2><p>RF32–RF41</p></div>
+    <p class="sec-sub">Módulo geral + conteúdo da sua área. Só múltipla escolha, sem cronômetro. Gabarito com explicação no fim.</p>
+    <div class="row3" id="simList"></div><div id="simBox" style="margin-top:12px"></div></div>
+</section>
+
+<!-- ============ MATERIAIS ============ -->
+<section class="view" data-view="materiais">
+  <div class="container narrow sec"><div class="sec-head"><span class="sec-num">05</span><h2>Currículo e redação</h2><p>RF43 · SÓ LEITURA</p></div><div id="matBox"></div></div>
+</section>
+
+<!-- ============ HISTÓRICO ============ -->
+<section class="view" data-view="historico">
+  <div class="container narrow sec"><div class="sec-head"><span class="sec-num">H</span><h2>Histórico</h2><p>5 + 5</p></div>
+    <p class="sec-sub">A trilha usa sempre a tentativa mais recente.</p>
+    <div class="panel"><h3>Comparar duas tentativas</h3><div class="row2"><select id="cmpA" style="padding:9px;border:1.5px solid #141A26"></select><select id="cmpB" style="padding:9px;border:1.5px solid #141A26"></select></div><button class="btn-primary" id="cmpBtn" style="margin-top:8px">Comparar</button><div id="cmpBox" style="margin-top:8px"></div></div>
+    <div class="row2"><div><h3>Questionário</h3><div id="histQuiz"></div></div><div><h3>Simulados</h3><div id="histSim"></div></div></div></div>
+</section>
+
+<!-- ============ CONTA ============ -->
+<section class="view" data-view="conta">
+  <div class="container narrow sec"><div class="sec-head"><span class="sec-num">C</span><h2>Minha conta</h2><p id="contaSub">DADOS E SESSÃO</p></div><div id="contaBox"></div></div>
+</section>
+
+<!-- ============ SOBRE ============ -->
+<section class="view" data-view="sobre">
+  <div class="container narrow sec"><div class="sec-head"><span class="sec-num">06</span><h2>Sobre o TCC</h2><p>METODOLOGIA</p></div>
+    <div class="panel accent"><h3>Problema</h3><p>Estudantes do ensino médio têm dificuldade de relacionar o que gostam e sabem fazer com áreas reais e próximos passos de formação e seleção.</p></div>
+    <div class="panel"><h3>Método de cálculo</h3><p class="mono">score(area) = (I·0,35 + H·0,35 + C·0,20) / 0,90</p><p>Cada resposta vale 0–4 e multiplica o peso da área (1–3). Uma resposta pode pontuar até 3 áreas (RF15). Preferências não somam: filtram e desempatam. Empate final: ordem A–Z.</p></div>
+    <div class="panel"><h3>Stack (RNF12)</h3><p>Frontend: HTML + CSS + JS com renderização condicional. Backend: Node.js + Express. Banco: PostgreSQL via <code>pg</code>, senhas com bcrypt e sessão com JWT. Tudo roda em localhost.</p></div>
+    <div class="panel"><h3>Privacidade (LGPD)</h3><p>Dados só do necessário, visíveis só para o próprio estudante, exclusão total da conta apaga resultados, respostas e simulados (RF11). Menores: uso acompanhado pela escola/orientação.</p></div>
+    <div class="panel"><h3>Documentação completa</h3><p>Pasta <code>docs/</code>: questionário, simulados, privacidade e banco de dados.</p></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer"><div class="container footer-inner">
+  <div><b>Projeto X — TCC CEDUP 2026</b><br>Orientação e preparação profissional.<br><span class="mono">Joguinho · 12 áreas · Trilha · Simulado</span></div>
+  <div><b>Banca</b><br>Metodologia explícita<br>Pesos e thresholds auditáveis<br>Histórico comparável</div>
+  <div><b>Dados</b><br>Privados por conta<br>5 tentativas guardadas<br>Exclusão total disponível</div>
+  <div><b>Rodar</b><br><code>cd server && npm i && npm start</code><br><span class="mono">http://localhost:3000</span></div>
+</div></footer>
 <div class="toast" id="toast"></div>
 <script src="dados.js"></script>
-<script src="script.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

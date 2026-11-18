@@ -1,0 +1,19 @@
+{
+  "name": "projeto-x-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend do Projeto X (TCC CEDUP 2026) — Express + PostgreSQL (pg) com fallback em arquivo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "db:init": "psql $DATABASE_URL -f schema.sql"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.12.0"
+  }
+}
