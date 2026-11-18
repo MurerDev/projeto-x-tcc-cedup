@@ -9,7 +9,7 @@ const DB={read(k,f){try{return JSON.parse(localStorage.getItem(k))??f}catch{retu
 let users=DB.read('px_users',[]), session=DB.read('px_session',null);
 async function hash(s){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('px::'+s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch{let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return 'f'+h}}
 const me=()=>users.find(u=>u.usernameLower===(session?.usernameLower||''));
-function saveUsers(){DB.write('px_users',users)}function setSession(u){session=u?{usernameLower:u.usernameLower,ts:Date.now()}:null;DB.write('px_session',session);refreshPerfil()}
+function saveUsers(){DB.write('px_users',users)}function setSession(u){session=u?{usernameLower:u.usernameLower,ts:Date.now()}:null;DB.write('px_session',session);}
 
 /* ---------- Jogo estado ---------- */
 let J={etapa:0,idx:0,ans:{},perguntas:[],finished:false};
@@ -48,7 +48,6 @@ function renderJogo(){
   }
 
   const q=J.perguntas[J.idx];
-  // etapa pela posição no array embaralhado
   let acumulado=0, etapa=4, pos=1;
   for(const e of [1,2,3,4]){
     const n=PILAR_TOTAL[e];
@@ -74,14 +73,13 @@ function renderJogo(){
   if(prev!==undefined){
     const inputs=$$('#cardOptions input'); if(inputs[prev]){inputs[prev].checked=true; marcarSelecionada(inputs[prev]);}
   }
-  $$('#cardOptions input').forEach(r=>{r.onchange=()=>{J.ans[q.id]=parseInt(r.value);J.dirty=true; marcarSelecionada(r); habilitarProximo();}});
+  $$('#cardOptions input').forEach(r=>{r.onchange=()=>{J.ans[q.id]=parseInt(r.value);J.dirty=true; marcarSelecionada(r); $('#cardNav').style.display='flex'; $('#btnProximo').disabled=false; $('#btnProximo').textContent='Próxima →';}});
 }
 
 function marcarSelecionada(el){
   $$('#cardOptions label').forEach(l=>l.classList.remove('sel'));
   if(el) el.closest('label').classList.add('sel');
 }
-function habilitarProximo(){$('#btnProximo').disabled=false; $('#btnProximo').textContent='Próxima →';}
 
 document.addEventListener('click',e=>{
   if(e.target.id==='btnProximo'){
@@ -108,7 +106,7 @@ function calc(){
       const areasNaQ=new Set();q.opts.forEach((o,idx)=>{if(idx%2===1&&Array.isArray(o)){for(let k=0;k<o.length;k+=2)areasNaQ.add(o[k])}});
       areasNaQ.forEach(ar=>{let mp=0;q.opts.forEach((o,idx)=>{if(idx%2===1&&Array.isArray(o)){for(let k=0;k<o.length;k+=2){if(o[k]===ar)mp=Math.max(mp,o[k+1]||1)}}});if(scores[ar])scores[ar].cmax+=4*mp});
       continue}
-    const pares=normAlvos(q.alvos);for(const [area,peso] of pares){const max=4*peso;if(scores[area]){if(q.etapa===1){scores[area].i+=v*peso;scores[area].imax+=max}else if(q.etapa===2){scores[area].h+=v*peso;scores[area].hmax+=max}else{scores[area].c+=v*peso;scores[area].cmax+=max}}}
+    const pares=normAlvos(q.alvos);for(const [area,peso] of pares){const max=4*peso;if(scores[area]){if(q.etapa===1){scores[area].i+=v*peso;scores[area].imax+=max}else if(q.etapa===2){scores[area].h+=v*peso;scores[area].hmax+=max}else{scores[area].c+=v*peso;scores[area].cmax+=max}}}      }
   }
   const prefs=[J.ans.p1,J.ans.p2,J.ans.p3,J.ans.p4];const final={};
   for(const a of AREAS){const s=scores[a.cod];const pi=s.imax?s.i/s.imax:0,ph=s.hmax?s.h/s.hmax:0,pc=s.cmax?s.c/s.cmax:0;final[a.cod]=((pi*PESOS.interesse+ph*PESOS.habilidade+pc*PESOS.competencia)/(PESOS.interesse+PESOS.habilidade+PESOS.competencia))*100}
@@ -144,40 +142,16 @@ function applyAuthTab(){try{showTab(authTab)}catch(e){}}
 let authTab='login';
 const tabL=$('#tabLogin'),tabC=$('#tabCad');if(tabL)tabL.onclick=()=>showTab('login');if(tabC)tabC.onclick=()=>showTab('cad');
 function suggest(u){const b=(u||'').toLowerCase().replace(/[^a-z0-9_.]/g,'');if(!b)return null;if(!users.some(x=>x.usernameLower===b))return null;for(let i=1;i<50;i++){if(!users.some(x=>x.usernameLower===b+i))return b+i}return b+'_x'}
-function refreshAuthCount(){const el=$('#authCount');if(el)el.textContent=users.length?`· ${users.length} conta(s) neste navegador`:''}
-$('#cadUser').addEventListener('input',e=>{const v=e.target.value.trim();const ok=/^[a-zA-Z0-9_.]{3,20}$/.test(v);const s=v?suggest(v):null;$('#userTip').textContent=!v?'3 a 20 caracteres: letras, numero, ponto ou _':!ok?'Formato invalido. Evite espaco e acento.':s?`"${v}" em uso. Sugestao: "${s}" — clique para usar.`:'Username livre.';$('#userTip').style.color=s||!ok?'#A83A2E':'#1A7A4C';$('#userTip').style.cursor=s?'pointer':'';$('#userTip').onclick=()=>{if(s){e.target.value=s;e.target.dispatchEvent(new Event('input'))}}});
-$('#cadPass').addEventListener('input',e=>{const v=e.target.value;const f=v.length<4?'muito curta (min 4)':v.length<6?'ok para teste':/[A-Z]/.test(v)&&/[0-9]/.test(v)&&v.length>=8?'forte':'media';$('#passTip').textContent='Forca: '+f});
-function bindToggle(btnId,inputId){const b=$(btnId);if(!b)return;b.onclick=()=>{const i=$(inputId);i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'ver':'ocultar'}}
-bindToggle('#toggleLogin','#loginPass');bindToggle('#toggleCad','#cadPass');
-try{const ru=localStorage.getItem('px_remember');if(ru){$('#loginUser').value=ru;const rm=$('#rememberMe');if(rm)rm.checked=true}}catch(e){}
-const forgot=$('#forgotLink');if(forgot)forgot.onclick=e=>{e.preventDefault();toast('Sem e-mail nesta versao: fale com a equipe para resetar pelo banco.')};
-$('#loginPass').addEventListener('keyup',e=>{if(e.getModifierState&&e.getModifierState('CapsLock')){$('#loginErr').textContent='Caps Lock ligado — confira maiusculas.'}else if($('#loginErr').textContent.includes('Caps'))$('#loginErr').textContent=''});
-$('#formCad').onsubmit=async e=>{e.preventDefault();$('#cadErr').textContent='';const nome=$('#cadNome').value.trim(),user=$('#cadUser').value.trim(),pass=$('#cadPass').value;
-if(nome.length<2){$('#cadErr').textContent='Informe seu nome (min 2 letras).';return}
-if(!/^[a-zA-Z0-9_.]{3,20}$/.test(user)){$('#cadErr').textContent='Username: 3-20, so letras sem acento, numero, ponto ou _. ';return}
-if(users.some(u=>u.usernameLower===user.toLowerCase())){const s=suggest(user);$('#cadErr').textContent=`Username em uso.${s?` Sugestao: ${s}`:''}`;return}
-if(pass.length<4){$('#cadErr').textContent='Senha minima 4 caracteres.';return}
-const btn=$('#btnCad');btn.disabled=true;btn.textContent='Criando...';
-const h=await hash(pass);const u={nome,username:user,usernameLower:user.toLowerCase(),passHash:h,idade:$('#cadIdade').value||'',cidade:$('#cadCidade').value||'',createdAt:Date.now(),usernameChangedAt:0,resultados:[],simulados:[]};users.push(u);saveUsers();setSession(u);refreshAuthCount();btn.disabled=false;btn.textContent='CRIAR CONTA';toast('Conta criada. Vamos jogar?');go('mapa')};
-$('#formLogin').onsubmit=async e=>{e.preventDefault();$('#loginErr').textContent='';const u=$('#loginUser').value.trim().toLowerCase(),p=$('#loginPass').value;
-if(!u||!p){$('#loginErr').textContent='Preencha usuário e senha.';return}
-const btn=$('#btnLogin');btn.disabled=true;btn.textContent='ENTRANDO...';
-const f=users.find(x=>x.usernameLower===u);const ok=f&&f.passHash===await hash(p);btn.disabled=false;btn.textContent='ENTRAR';
-if(!ok){$('#loginErr').textContent='Usuário ou senha inválidos. Confira e tente de novo.';return}
-try{const rm=$('#rememberMe');if(rm&&rm.checked)localStorage.setItem('px_remember',u);else localStorage.removeItem('px_remember')}catch(e){}
-setSession(f);toast('Ola, '+f.nome);go(f.resultados.length?'resultado':'mapa')};
-const demoBtn=$('#demoBtn');if(demoBtn)demoBtn.onclick=async()=>{let d=users.find(x=>x.usernameLower==='demo_banca');if(!d){d={nome:'Demo Banca',username:'demo_banca',usernameLower:'demo_banca',passHash:await hash('demo123'),idade:'17',cidade:'Jaragua do Sul/SC',createdAt:Date.now(),usernameChangedAt:0,resultados:[],simulados:[]};users.push(d);saveUsers()}setSession(d);refreshAuthCount();toast('Logado como demo_banca / demo123');go('mapa')};
+$('#cadUser').addEventListener('input',e=>{const v=e.target.value.trim();const ok=/^[a-zA-Z0-9_.]{3,20}$/.test(v);const s=v?suggest(v):null;$('#userTip').textContent=!v?'3 a 20 caracteres: letras, numero, ponto ou _':!ok?'Formato invalido. Evite espaco e acento.':s?`"${v}" em uso. Sugestao: "${s}" — clique para usar.`:'Username livre.';$('#userTip').style.color=s||!ok?'#A83A2E':'#1A7A4C';$('#userTip').style.cursor=s?'pointer':'';$('#userTip').onclick=()=>{if(s){e.target.value=s;e.target.dispatchEvent(new Event('input'))}}});\n$('#cadPass').addEventListener('input',e=>{const v=e.target.value;const f=v.length<4?'muito curta (min 4)':v.length<6?'ok para teste':/[A-Z]/.test(v)&&/[0-9]/.test(v)&&v.length>=8?'forte':'media';$('#passTip').textContent='Forca: '+f});\nfunction bindToggle(btnId,inputId){const b=$(btnId);if(!b)return;b.onclick=()=>{const i=$(inputId);i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'ver':'ocultar'}}\nbindToggle('#toggleLogin','#loginPass');bindToggle('#toggleCad','#cadPass');\ntry{const ru=localStorage.getItem('px_remember');if(ru){$('#loginUser').value=ru;const rm=$('#rememberMe');if(rm)rm.checked=true}}catch(e){}\nconst forgot=$('#forgotLink');if(forgot)forgot.onclick=e=>{e.preventDefault();toast('Sem e-mail nesta versao: fale com a equipe para resetar pelo banco.')};$('#loginPass').addEventListener('keyup',e=>{if(e.getModifierState&&e.getModifierState('CapsLock')){$('#loginErr').textContent='Caps Lock ligado — confira maiusculas.'}else if($('#loginErr').textContent.includes('Caps'))$('#loginErr').textContent=''});$('#formCad').onsubmit=async e=>{e.preventDefault();$('#cadErr').textContent='';const nome=$('#cadNome').value.trim(),user=$('#cadUser').value.trim(),pass=$('#cadPass').value;\nif(nome.length<2){$('#cadErr').textContent='Informe seu nome (min 2 letras).';return}\nif(!/^[a-zA-Z0-9_.]{3,20}$/.test(user)){$('#cadErr').textContent='Username: 3-20, so letras sem acento, numero, ponto ou _. ';return}\nif(users.some(u=>u.usernameLower===user.toLowerCase())){const s=suggest(user);$('#cadErr').textContent=`Username em uso.${s?` Sugestao: ${s}`:''}`;return}\nif(pass.length<4){$('#cadErr').textContent='Senha minima 4 caracteres.';return}\nconst btn=$('#btnCad');btn.disabled=true;btn.textContent='Criando...';\nconst h=await hash(pass);const u={nome,username:user,usernameLower:user.toLowerCase(),passHash:h,idade:$('#cadIdade').value||'',cidade:$('#cadCidade').value||'',createdAt:Date.now(),usernameChangedAt:0,resultados:[],simulados:[]};users.push(u);saveUsers();setSession(u);btn.disabled=false;btn.textContent='CRIAR CONTA';toast('Conta criada. Vamos jogar?');go('mapa')};$('#formLogin').onsubmit=async e=>{e.preventDefault();$('#loginErr').textContent='';const u=$('#loginUser').value.trim().toLowerCase(),p=$('#loginPass').value;\nif(!u||!p){$('#loginErr').textContent='Preencha usuário e senha.';return}\nconst btn=$('#btnLogin');btn.disabled=true;btn.textContent='ENTRANDO...';\nconst f=users.find(x=>x.usernameLower===u);const ok=f&&f.passHash===await hash(p);btn.disabled=false;btn.textContent='ENTRAR';\nif(!ok){$('#loginErr').textContent='Usuário ou senha inválidos. Confira e tente de novo.';return}\ntry{const rm=$('#rememberMe');if(rm&&rm.checked)localStorage.setItem('px_remember',u);else localStorage.removeItem('px_remember')}catch(e){}\nsetSession(f);toast('Ola, '+f.nome);go(f.resultados.length?'resultado':'mapa')};const demoBtn=$('#demoBtn');if(demoBtn)demoBtn.onclick=async()=>{let d=users.find(x=>x.usernameLower==='demo_banca');if(!d){d={nome:'Demo Banca',username:'demo_banca',usernameLower:'demo_banca',passHash:await hash('demo123'),idade:'17',cidade:'Jaragua do Sul/SC',createdAt:Date.now(),usernameChangedAt:0,resultados:[],simulados:[]};users.push(d);saveUsers()}setSession(d);toast('Logado como demo_banca / demo123');go('mapa')};
 
 /* ---------- Navegação ---------- */
-function go(view){$$('.view').forEach(v=>v.classList.toggle('active',v.dataset.view===view));$$('#menu a').forEach(a=>a.classList.toggle('active',a.dataset.go===view));$('#menu').classList.remove('open');window.scrollTo({top:0,behavior:'smooth'});
+function go(view){$$('.view').forEach(v=>v.classList.toggle('active',v.dataset.view===view));window.scrollTo({top:0,behavior:'smooth'});
 if(view==='auth'){try{applyAuthTab()}catch(e){}}
 if(view==='mapa'){iniciarJogo();}
 }
 document.addEventListener('click',e=>{
-  const g=e.target.closest('[data-go]');if(g){e.preventDefault();const v=g.dataset.go;if(['resultado'].includes(v)&&!me()){go('auth');toast('Crie uma conta para continuar');return}go(v)}
-  const b=e.target.closest('[data-auth]');if(b){e.preventDefault();showTab(b.dataset.auth);go('auth')}
+  const g=e.target.closest('[data-go]');if(g){e.preventDefault();const v=g.dataset.go;if(v==='resultado'&&!me()){go('auth');toast('Crie uma conta para continuar');return}go(v)}
 });
-$('#btnHome').onclick=e=>{e.preventDefault();go('mapa')};
 
 /* ---------- Export / print ---------- */
 function doPrint(){window.print()}
@@ -186,7 +160,7 @@ document.addEventListener('click',e=>{
 if(e.target.id==='btnPrint'||e.target.id==='printHome')window.print();
 if(e.target.id==='btnExport')doExport();
 });
-document.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;const map={'1':'mapa','2':'resultado','3':'areas','4':'simulado','5':'materiais'};if(map[e.key])go(map[e.key])});
+document.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;const map={'1':'mapa','2':'resultado'};if(map[e.key])go(map[e.key])});
 
 // Inicial
-refreshPerfil();try{refreshAuthCount()}catch(e){}
+try{refreshAuthCount()}catch(e){}
