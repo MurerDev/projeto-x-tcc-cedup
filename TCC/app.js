@@ -39,6 +39,12 @@ async function logout(){try{if(apiOnline)await api('/api/auth/logout',{method:'P
 /* ---------------- Dados / pilares ---------------- */
 const PILAR_NOMES={1:'Interesses',2:'Habilidades',3:'Competências',4:'Preferências'};
 const PILAR_TOTAL={1:12,2:10,3:8,4:4};
+const FASES=[
+  {n:1, nome:'Interesses', desc:'O que você gosta de fazer e aprender.', inicio:0, fim:12},
+  {n:2, nome:'Habilidades', desc:'O que você já fez: cursos, bicos, projetos.', inicio:12, fim:22},
+  {n:3, nome:'Competências', desc:'Como você age nas situações do dia a dia.', inicio:22, fim:30},
+  {n:4, nome:'Preferências', desc:'Onde e como você se sente melhor trabalhando.', inicio:30, fim:34}
+];
 let J={idx:0,ans:{},perguntas:[],finished:false,etapa:1};
 let Q_SEL=null; // guarda o id da pergunta selecionada
 
@@ -101,6 +107,35 @@ function openTrilha(cod){
 }
 
 /* ---------------- Joguinho ---------------- */
+function faseConcluida(f){for(let i=f.inicio;i<f.fim;i++){if(J.ans[J.perguntas[i].id]===undefined)return false}return true}
+function faseLiberada(f){return f.n===1||faseConcluida(FASES[f.n-2])}
+
+function renderFases(){
+  $('#fasesBox').innerHTML=FASES.map(f=>{
+    const concluida=faseConcluida(f), liberada=faseLiberada(f);
+    const selo=concluida?'✓':liberada?'ABERTA':'🔒';
+    const label=concluida?'Concluída':liberada?'Liberada':'Bloqueada';
+    return `<div class="fase-card ${concluida?'concluida':''} ${liberada?'':'bloqueada'}" data-fase="${liberada?f.n:''}">
+      <span class="fase-selo">${selo}</span>
+      <span class="fase-num">ETAPA ${f.n} DE 4 · ${PILAR_NOMES[f.n].toUpperCase()}</span>
+      <h3 class="fase-titulo">${f.nome}</h3>
+      <p class="fase-desc">${f.desc}</p>
+      <p class="fase-desc">${f.fim-f.inicio} perguntas</p>
+      <span class="fase-label">${label}</span>
+    </div>`}).join('');
+  $('#fasesBox').hidden=false;
+  $('#jogoArea').hidden=true;
+}
+
+function iniciarFase(n){
+  const f=FASES[n-1];
+  J.idx=f.inicio; J.etapa=f.n; J.finished=false;
+  $('#fasesBox').hidden=true;
+  $('#jogoArea').hidden=false;
+  renderJogo();
+  salvarProgresso();
+}
+
 async function prepararJogo(){
   montarPerguntas();
   let prog=null;
@@ -108,19 +143,16 @@ async function prepararJogo(){
     try{if(apiOnline){prog=await api('/api/progresso')}else{prog=DB.read('px_progresso',null)}
     }catch(e){prog=null}
   }
-  const box=$('#retomarBox');
-  if(prog && !prog.finalizado && prog.idx>0){
-    box.hidden=false;
-    $('#retomarInfo').textContent=`Você parou na pergunta ${prog.idx} de ${J.perguntas.length} (${new Date(prog.atualizado_em||Date.now()).toLocaleString('pt-BR')}).`;
-    J.idx=prog.idx; J.ans=prog.respostas||{};
-  }else if(prog && prog.finalizado){
-    box.hidden=true; J.idx=0; J.ans={};
-  }else{
-    box.hidden=true; J.idx=0; J.ans={};
-  }
-  J.finished=false; J.etapa=etapaDoIndice(J.idx);
-  renderJogo();
+  if(prog&&prog.respostas){J.ans=prog.respostas}
+  J.finished=false;
+  renderFases();
 }
+
+document.addEventListener('click',e=>{
+  const card=e.target.closest('[data-fase]');
+  if(card&&card.dataset.fase){iniciarFase(parseInt(card.dataset.fase))}
+  if(e.target.id==='btnVoltarFases'){renderFases()}
+});
 
 async function salvarProgresso(finalizado=false){
   if(!me())return;
@@ -139,7 +171,7 @@ function renderJogo(){
   if(char0&&dots0[J.idx]){char0.style.transition='none';char0.style.left=dots0[J.idx].offsetLeft+'px';char0.style.top='-52px'}
   const card=$('#gameCard');
   if(J.finished){
-    card.innerHTML=`<div class="card-header"><span class="card-pilar">Jogo concluído!</span><span class="card-num">Você respondeu tudo</span></div><div class="card-txt">Parabéns, você chegou ao final! 🎉</div><div class="card-nav"><button class="btn-primary" id="btnFinalizarJogo">Ver meu resultado →</button></div>`;
+    card.innerHTML=`<div class="card-header"><span class="card-pilar">Jogo concluído!</span><span class="card-num">Você respondeu tudo</span></div><div class="card-txt">Você chegou ao final de todas as etapas.</div><div class="card-nav"><button class="btn-primary" id="btnFinalizarJogo">Ver meu resultado</button></div>`;
     $('#btnFinalizarJogo').onclick=async()=>{const r=calc();await salvarResultado(r);exibirResultado(r)};
     return;
   }
@@ -154,15 +186,13 @@ function renderJogo(){
   $$('#cardOptions, #gameCard').forEach(()=>{});
   $$('#gameCard input').forEach(r=>r.onchange=()=>{J.ans[q.id]=parseInt(r.value);Q_SEL=q.id;$$('#gameCard label').forEach(l=>l.classList.remove('sel'));r.closest('label').classList.add('sel');salvarProgresso()});
   const bv=$('#btnVoltar');if(bv)bv.onclick=()=>{if(J.idx>0){J.idx--;J.etapa=etapaDoIndice(J.idx);renderJogo();salvarProgresso()}};
-  const bp=$('#btnProximo');if(bp)bp.onclick=()=>{const qq=J.perguntas[J.idx];if(J.ans[qq.id]===undefined){toast('Responda antes de andar');return}caminhar(()=>{J.idx++;J.etapa=etapaDoIndice(J.idx);if(J.idx>=J.perguntas.length){J.finished=true;salvarProgresso(true)}renderJogo();salvarProgresso(J.finished)})};
+  const bp=$('#btnProximo');if(bp)bp.onclick=()=>{const qq=J.perguntas[J.idx];if(J.ans[qq.id]===undefined){toast('Responda antes de andar');return}caminhar(()=>{const f=FASES[J.etapa-1];J.idx++;if(J.idx>=J.perguntas.length){J.finished=true;salvarProgresso(true);renderJogo();return}if(J.idx>=f.fim){toast('Etapa concluída! Próxima liberada.');salvarProgresso();renderFases();return}J.etapa=etapaDoIndice(J.idx);renderJogo();salvarProgresso(J.finished)})};
 }
 
 /* botões fixos do topo do joguinho */
 document.addEventListener('click',e=>{
   if(e.target.id==='btnProximoTopo'){const bp=$('#btnProximo');if(bp)bp.click()}
   if(e.target.id==='btnVoltarTopo'){const bv=$('#btnVoltar');if(bv)bv.click()}
-  if(e.target.id==='btnContinuar'){$('#retomarBox').hidden=true}
-  if(e.target.id==='btnRecomecar'){J.idx=0;J.ans={};J.etapa=1;J.finished=false;$('#retomarBox').hidden=true;renderJogo();salvarProgresso()}
 });
 
 /* ---------------- Cálculo ---------------- */

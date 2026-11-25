@@ -39,14 +39,13 @@
   <div class="hero">
     <div class="container hero-inner">
       <div class="hero-copy">
-        <span class="hello">👋 Que bom te ver por aqui!</span>
         <h1>Descubra caminhos<br>para o seu <span class="blue">futuro<br>profissional.</span></h1>
         <p class="hero-desc">O <strong>Projeto X</strong> é uma plataforma feita para ajudar estudantes do ensino médio a entender melhor seu perfil e se preparar, no seu ritmo, para o mercado de trabalho. Sem determinar profissão: indica <strong>áreas compatíveis</strong> e monta sua <strong>trilha</strong>.</p>
         <div class="hero-cta">
           <a href="#" class="btn-primary" data-go="jogo">Começar o joguinho 🎮</a>
           <a href="#" class="btn-ghost" data-go="areas">Ver as 12 áreas</a>
         </div>
-        <p class="hero-trust">✨ Gratuito · sem nota · resultado privado só seu</p>
+        <p class="hero-trust">Gratuito. Sem nota. Resultado só seu.</p>
       </div>
       <div class="hero-side">
         <img class="seal-logo" src="logo.png" alt="Logo Projeto X" />
@@ -69,7 +68,7 @@
         <span class="kicker">COMO FUNCIONA</span>
         <h2>Os 4 pilares da<br>sua análise</h2>
         <p>Interesses, habilidades, competências e preferências. Juntos apontam áreas compatíveis — nunca uma profissão obrigatória.</p>
-        <p class="human-note">💬 A gente te escuta primeiro, depois sugere.</p>
+        <p class="human-note">A gente escuta primeiro, depois sugere.</p>
         <a href="#" class="link-more" data-go="jogo">COMEÇAR PELO JOGUINHO</a>
       </div>
       <article class="card"><span class="card-kicker">1 · INTERESSES</span><p>O que desperta sua curiosidade.</p><button class="saiba" data-go="jogo">Etapa 1</button></article>
@@ -98,26 +97,28 @@
 <!-- ============ JOGUINHO ============ -->
 <section class="view" data-view="jogo">
   <div class="container sec">
-    <div class="sec-head"><span class="sec-num">🎮</span><h2>Joguinho do Perfil</h2><p id="quizStatus">PROGRESSO SALVO NO BANCO</p></div>
-    <div class="game-header">
-      <div class="progress-wrap"><div class="progress-track"></div><div class="progress-fill" id="gameProgress"></div></div>
-      <div class="game-stats"><span id="gameEtapa">1</span> / <span id="gameTotal">34</span><span class="sep">•</span><span id="gamePilar">Interesses</span></div>
+    <div class="sec-head"><span class="sec-num">JOGUINHO</span><h2>Etapas do questionário</h2><p id="quizStatus">PROGRESSO SALVO NO BANCO</p></div>
+
+    <!-- Seleção de fases: a primeira sempre livre, as próximas com cadeado -->
+    <div id="fasesBox" class="fases-grid"></div>
+
+    <div id="jogoArea" hidden>
+      <div class="game-header">
+        <div class="progress-wrap"><div class="progress-track"></div><div class="progress-fill" id="gameProgress"></div></div>
+        <div class="game-stats"><span id="gameEtapa">1</span> / <span id="gameTotal">34</span><span class="sep">•</span><span id="gamePilar">Interesses</span></div>
+      </div>
+      <div class="game-board">
+        <div class="game-path"><div class="path-line"></div><div id="pathPoints"></div></div>
+        <div class="game-character" id="gameCharacter">🧑‍🎓</div>
+        <div class="game-card" id="gameCard"></div>
+      </div>
+      <div class="game-footer no-print">
+        <button class="btn-ghost" id="btnVoltarFases">Voltar às etapas</button>
+        <button class="btn-ghost" id="btnVoltarTopo">Voltar pergunta</button>
+        <button class="btn-primary" id="btnProximoTopo">Próxima</button>
+      </div>
+      <p class="form-hint">O progresso salva sozinho. Pode sair e voltar depois que continua de onde parou.</p>
     </div>
-    <div id="retomarBox" class="panel accent" hidden>
-      <b>Você já começou este questionário.</b>
-      <p class="sec-sub" style="margin:4px 0 8px" id="retomarInfo"></p>
-      <div class="row2"><button class="btn-primary" id="btnContinuar">Continuar de onde parei</button><button class="btn-ghost dark" id="btnRecomecar">Recomeçar do zero</button></div>
-    </div>
-    <div class="game-board">
-      <div class="game-path"><div class="path-line"></div><div id="pathPoints"></div></div>
-      <div class="game-character" id="gameCharacter">🧑‍🎓</div>
-      <div class="game-card" id="gameCard"></div>
-    </div>
-    <div class="game-footer no-print">
-      <button class="btn-ghost" id="btnVoltarTopo">← Voltar pergunta</button>
-      <button class="btn-primary" id="btnProximoTopo">Próxima →</button>
-    </div>
-    <p class="form-hint">Respondeu? O progresso salva sozinho no banco. Pode sair e voltar depois que continua de onde parou.</p>
   </div>
 </section>
 

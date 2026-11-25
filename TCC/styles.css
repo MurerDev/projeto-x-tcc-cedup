@@ -109,6 +109,20 @@ code{background:#eef6ff;border:1px solid var(--line);border-radius:6px;padding:1
 .btn-light{font-size:.95rem}
 .small{color:#8fa0c0;font-size:.8rem;margin-top:6px}
 /* joguinho */
+/* fases do questionário */
+.fases-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.fase-card{background:#fff;border:1.5px solid var(--navy);border-radius:16px;padding:18px;box-shadow:var(--glow);cursor:pointer;position:relative;transition:.2s}
+.fase-card:hover{transform:translateY(-3px)}
+.fase-card.bloqueada{opacity:.55;cursor:not-allowed;background:#f3f6fa;border-style:dashed}
+.fase-card.bloqueada:hover{transform:none}
+.fase-card.concluida{border-color:#15803d;background:#f4fbf6}
+.fase-num{font-size:.66rem;font-weight:900;letter-spacing:1.2px;color:var(--blue)}
+.fase-titulo{font-size:1.05rem;font-weight:900;margin:4px 0 4px}
+.fase-desc{font-size:.82rem;color:var(--muted);margin:0}
+.fase-selo{position:absolute;top:16px;right:16px;font-size:1.2rem}
+.fase-label{display:inline-block;margin-top:10px;font-size:.7rem;font-weight:900;padding:4px 10px;border-radius:999px;background:#eaf4ff;color:var(--blue-dark)}
+.fase-card.concluida .fase-label{background:#dff5e7;color:#15803d}
+.fase-card.bloqueada .fase-label{background:#e9edf3;color:var(--muted)}
 .game-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}
 .progress-wrap{flex:1}
 .progress-track{height:10px;background:#fff;border:1.5px solid var(--navy);border-radius:999px;overflow:hidden;margin-bottom:6px}
