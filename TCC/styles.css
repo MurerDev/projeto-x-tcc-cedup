@@ -122,8 +122,11 @@ code{background:#eef6ff;border:1px solid var(--line);border-radius:6px;padding:1
 .path-dot{width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #cbd5e1}
 .path-dot.done{background:var(--blue);border-color:var(--blue)}
 .path-dot.active{background:#fff;border-color:var(--blue);box-shadow:0 0 0 4px rgba(46,163,242,.3)}
-.game-character{font-size:48px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.3));animation:bounce 2.5s ease-in-out infinite;z-index:10}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.game-character{position:absolute;font-size:48px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.3));z-index:10;line-height:1;transform-origin:center bottom;animation:idle 2.2s ease-in-out infinite}
+.game-character.walking{animation:walk .35s linear infinite!important}
+@keyframes idle{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+@keyframes walk{0%{transform:translateY(0) rotate(-7deg) scale(1)}25%{transform:translateY(-9px) rotate(-3deg) scale(1.04)}50%{transform:translateY(0) rotate(7deg) scale(1)}75%{transform:translateY(-9px) rotate(3deg) scale(1.04)}100%{transform:translateY(0) rotate(-7deg) scale(1)}}
+.path-dot{transition:.3s}
 .game-card{flex:1;min-width:300px;background:#fff;border:1.5px solid var(--navy);border-radius:18px;padding:22px;box-shadow:var(--glow)}
 .card-header{display:flex;justify-content:space-between;gap:10px;margin-bottom:12px}
 .card-pilar{font-size:.68rem;font-weight:900;letter-spacing:.8px;color:var(--blue-dark);background:#eef6ff;padding:4px 10px;border-radius:999px}

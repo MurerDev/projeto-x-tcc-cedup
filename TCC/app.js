@@ -40,6 +40,21 @@ async function logout(){try{if(apiOnline)await api('/api/auth/logout',{method:'P
 const PILAR_NOMES={1:'Interesses',2:'Habilidades',3:'Competências',4:'Preferências'};
 const PILAR_TOTAL={1:12,2:10,3:8,4:4};
 let J={idx:0,ans:{},perguntas:[],finished:false,etapa:1};
+let Q_SEL=null; // guarda o id da pergunta selecionada
+
+/* Faz o bonequinho andar até a próxima estação antes de trocar de pergunta */
+function caminhar(callback){
+  const char=$('#gameCharacter');
+  if(!char){callback();return}
+  const dots=$$('.path-dot');
+  const alvo=dots[Math.min(J.idx+1,dots.length-1)];
+  char.classList.add('walking');
+  if(alvo){
+    char.style.transition='left .65s ease-in-out';
+    char.style.left=alvo.offsetLeft+'px';
+  }
+  setTimeout(()=>{char.classList.remove('walking');callback()},700);
+}
 const ordemEtapas=[1,2,3,4];
 
 function montarPerguntas(){J.perguntas=ordemEtapas.flatMap(e=>PERGUNTAS.filter(q=>q.etapa===e));J.etapa=1}
@@ -120,6 +135,8 @@ function renderJogo(){
   $('#gameProgress').style.width=J.finished?'100%':Math.round((J.idx/J.perguntas.length)*100)+'%';
   const pts=$('#pathPoints');pts.innerHTML='';
   for(let i=0;i<J.perguntas.length;i++){const d=document.createElement('div');d.className='path-dot'+(i<J.idx?' done':i===J.idx?' active':'');pts.appendChild(d)}
+  const char0=$('#gameCharacter'),dots0=$$('.path-dot');
+  if(char0&&dots0[J.idx]){char0.style.transition='none';char0.style.left=dots0[J.idx].offsetLeft+'px';char0.style.top='-52px'}
   const card=$('#gameCard');
   if(J.finished){
     card.innerHTML=`<div class="card-header"><span class="card-pilar">Jogo concluído!</span><span class="card-num">Você respondeu tudo</span></div><div class="card-txt">Parabéns, você chegou ao final! 🎉</div><div class="card-nav"><button class="btn-primary" id="btnFinalizarJogo">Ver meu resultado →</button></div>`;
@@ -135,9 +152,9 @@ function renderJogo(){
   html+='</div><div class="card-nav"><button class="btn-ghost dark" id="btnVoltar">← Voltar</button><button class="btn-primary" id="btnProximo">Próxima →</button></div>';
   card.innerHTML=html;
   $$('#cardOptions, #gameCard').forEach(()=>{});
-  $$('#gameCard input').forEach(r=>r.onchange=()=>{J.ans[r.name]=parseInt(r.value);$$('#gameCard label').forEach(l=>l.classList.remove('sel'));r.closest('label').classList.add('sel');salvarProgresso()});
+  $$('#gameCard input').forEach(r=>r.onchange=()=>{J.ans[q.id]=parseInt(r.value);Q_SEL=q.id;$$('#gameCard label').forEach(l=>l.classList.remove('sel'));r.closest('label').classList.add('sel');salvarProgresso()});
   const bv=$('#btnVoltar');if(bv)bv.onclick=()=>{if(J.idx>0){J.idx--;J.etapa=etapaDoIndice(J.idx);renderJogo();salvarProgresso()}};
-  const bp=$('#btnProximo');if(bp)bp.onclick=()=>{const qq=J.perguntas[J.idx];if(J.ans[qq.id]===undefined){toast('Responda antes de andar');return}J.idx++;J.etapa=etapaDoIndice(J.idx);if(J.idx>=J.perguntas.length){J.finished=true;salvarProgresso(true)}renderJogo();salvarProgresso(J.finished)};
+  const bp=$('#btnProximo');if(bp)bp.onclick=()=>{const qq=J.perguntas[J.idx];if(J.ans[qq.id]===undefined){toast('Responda antes de andar');return}caminhar(()=>{J.idx++;J.etapa=etapaDoIndice(J.idx);if(J.idx>=J.perguntas.length){J.finished=true;salvarProgresso(true)}renderJogo();salvarProgresso(J.finished)})};
 }
 
 /* botões fixos do topo do joguinho */
